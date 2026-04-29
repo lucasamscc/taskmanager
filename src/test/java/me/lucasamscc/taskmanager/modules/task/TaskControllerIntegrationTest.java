@@ -26,7 +26,6 @@ class TaskControllerIntegrationTest {
     @MockitoBean
     private TaskService taskService;
 
-    // Criamos o ObjectMapper manualmente para evitar o erro de 'UnsatisfiedDependencyException'
     private final ObjectMapper objectMapper = new ObjectMapper().registerModule(new JavaTimeModule());
 
     @Test
@@ -34,7 +33,7 @@ class TaskControllerIntegrationTest {
     void shouldReturnCreated() throws Exception {
         CreateTaskDTO dto = new CreateTaskDTO("Título", "Descrição", UUID.randomUUID());
 
-        mockMvc.perform(post("/tasks") // Certifique-se que este 'post' vem de MockMvcRequestBuilders
+        mockMvc.perform(post("/tasks")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(dto)))
                 .andExpect(status().isCreated());
