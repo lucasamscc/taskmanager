@@ -23,14 +23,6 @@
 O **Task Manager** é uma API RESTful construída para gerenciamento de tarefas internas, permitindo que usuários criem, atualizem e acompanhem suas tarefas e subtarefas de forma organizada e consistente.
 
   
-
-### Problema que resolve
-
-  
-
-Equipes e indivíduos precisam de um sistema confiável para organizar fluxos de trabalho com suporte a hierarquia de tarefas. 
-  
-
 ---
 
   
