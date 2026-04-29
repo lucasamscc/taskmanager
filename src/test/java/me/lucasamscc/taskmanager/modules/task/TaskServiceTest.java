@@ -13,7 +13,12 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -91,5 +96,25 @@ class TaskServiceTest {
         assertThrows(ResourceNotFoundException.class, () -> {
             taskService.findById(taskId);
         });
+    }
+
+    @Test
+    @DisplayName("Should return a page of tasks when queried")
+    void shouldReturnPageOfTasks() {
+        UUID taskId = UUID.randomUUID();
+        Task task = Task.builder().id(taskId).title("Test").status(TaskStatus.PENDING).build();
+        TaskResponseDTO dto = new TaskResponseDTO(taskId, "Test", "Desc", TaskStatus.PENDING, null, null, UUID.randomUUID());
+
+        Pageable pageable = PageRequest.of(0, 10);
+        Page<Task> taskPage = new PageImpl<>(List.of(task));
+
+        when(taskRepository.findAll(pageable)).thenReturn(taskPage);
+        when(taskMapper.toDTO(task)).thenReturn(dto);
+
+        Page<TaskResponseDTO> result = taskService.findAll(null, pageable);
+
+        assertNotNull(result);
+        assertEquals(1, result.getTotalElements());
+        verify(taskRepository, times(1)).findAll(pageable);
     }
 }
