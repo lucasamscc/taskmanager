@@ -13,7 +13,6 @@ import org.springframework.http.MediaType;
 
 import java.util.UUID;
 
-// IMPORTANTE: Use estes imports específicos do MockMvcRequestBuilders
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -29,7 +28,7 @@ class TaskControllerIntegrationTest {
     private final ObjectMapper objectMapper = new ObjectMapper().registerModule(new JavaTimeModule());
 
     @Test
-    @DisplayName("Deve retornar 201 Created ao criar tarefa válida")
+    @DisplayName("Should return 201 Created when creating a valid task")
     void shouldReturnCreated() throws Exception {
         CreateTaskDTO dto = new CreateTaskDTO("Título", "Descrição", UUID.randomUUID());
 
@@ -40,7 +39,7 @@ class TaskControllerIntegrationTest {
     }
 
     @Test
-    @DisplayName("Deve retornar 400 Bad Request ao enviar título vazio")
+    @DisplayName("Should return 400 Bad Request when sending an empty title")
     void shouldReturnBadRequestForInvalidTitle() throws Exception {
         CreateTaskDTO dto = new CreateTaskDTO("", "Descrição", UUID.randomUUID());
 
